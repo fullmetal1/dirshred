@@ -1,0 +1,16 @@
+#!/bin/sh
+for var in "$@"
+do
+	if [ -d "$var" ]
+	then
+		cd "$var"
+		find -type f -print0 | xargs --null shred -zuvn35 
+		rm -rfdv "$var"
+	elif [ -f "$var" ]
+	then
+		shred -zuvn35 "$var"
+	else
+		echo "$var is not a directory or file"
+	fi
+done
+
